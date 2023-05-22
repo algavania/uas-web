@@ -27,7 +27,7 @@
             $message = 'Email has been used!';
         } else {
             $password = password_hash($password, PASSWORD_DEFAULT);
-            mysqli_query($connect, "INSERT INTO users VALUES('', '$name', '$email', '$password')");
+            mysqli_query($connect, "INSERT INTO users VALUES('', '$name', '$email', '$password', '1', NULL)");
             echo '
 <script>
 $(document).ready(function() {

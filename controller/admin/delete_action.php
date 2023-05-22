@@ -8,5 +8,5 @@
     $nrp = $_GET['nrp'];
     $sql = "DELETE from mahasiswa WHERE nrp='$nrp'";    
     $query = mysqli_query($connect, $sql);
-    header("location:../../index.php");
+    header("location:../../student.php");
 ?>

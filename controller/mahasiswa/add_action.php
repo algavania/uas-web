@@ -22,27 +22,15 @@
         exit;
     }
     if (isset($_POST['nrp'])) {
-        $checkNrp = "SELECT * FROM mahasiswa WHERE nrp='$_POST[nrp]'";
-        $checkEmail = "SELECT * FROM mahasiswa WHERE email='$_POST[email]'";
+        $checkNrp = "SELECT * FROM students WHERE nrp='$_POST[nrp]'";
+        $checkUser = "SELECT * FROM students WHERE user_id='$_POST[user]'";
         $resultNrp = mysqli_query($connect, $checkNrp);
-        $resultEmail = mysqli_query($connect, $checkEmail);
-        $resImage = false;
+        $resultUser = mysqli_query($connect, $checkUser);
 
-        $fileName = $_FILES['photo']['name'];
-        $size = $_FILES['photo']['size'];
-        $tmpName = $_FILES['photo']['tmp_name'];
-
-        if ($size > 2 * 1024 * 1024) {
-            $resImage = true;
-        }
-
-        if ($resultNrp->num_rows != 0 || $resultEmail->num_rows != 0 || $resImage) {
+        if ($resultNrp->num_rows != 0 || $resultUser->num_rows != 0) {
             $message = 'NRP has been used!';
-            if ($resultEmail->num_rows != 0) {
-                $message = 'Email has been used!';
-            }
-            if ($resImage) {
-                $message = 'Image size is too big. Maximum size is 2MB.';
+            if ($resultUser->num_rows != 0) {
+                $message = 'User has been used!';
             }
             echo '
     <script>
@@ -57,24 +45,12 @@
      });
     </script>';
         } else {
-            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-            $fileName = $_POST['nrp'] . '.' . $extension;
-            move_uploaded_file($tmpName, '../../img/'.$fileName);
-            $sql = "INSERT INTO mahasiswa(nrp,
-                nama,
-                jenis_kelamin,
-                jurusan,
-                email,
-                alamat,
-                photo
-                )
+            $sql = "INSERT INTO students
 VALUES ('$_POST[nrp]',
-        '$_POST[name]',
+        '$_POST[user]',
         '$_POST[gender]',
-        '$_POST[major]',
-        '$_POST[email]',
         '$_POST[address]',
-        '$fileName'
+        '$_POST[major]'
         )";
             $query = mysqli_query($connect, $sql);
             if ($query && mysqli_affected_rows($connect) > 0) {
@@ -86,7 +62,7 @@ swal({
     text: "Data has been added!",
     icon: "success",
 }).then((value) => {
-    window.location = "../../index.php";
+    window.location = "../../student.php";
 });
 });
 </script>';

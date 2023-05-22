@@ -23,43 +23,21 @@
     }
     $nrp = $_POST['nrp'];
     $nrpAwal = $_POST['nrp_awal'];
-    $email = $_POST['email'];
-    $emailAwal = $_POST['email_awal'];
     $major = $_POST['major'];
     $gender = $_POST['gender'];
     $address = $_POST['address'];
-    $name = $_POST['name'];
+    $user = $_POST['user'];
+    $userAwal = $_POST['user_awal'];
 
-    $checkNrp = "SELECT * FROM mahasiswa WHERE nrp='$nrp'";
-    $checkEmail = "SELECT * FROM mahasiswa WHERE email='$email'";
-    $resultNrp = mysqli_query($connect, $checkNrp);
-    $resultEmail = mysqli_query($connect, $checkEmail);
-    $resNrp = $resultNrp->num_rows != 0 && $nrp != $nrpAwal;
-    $resEmail = $resultEmail->num_rows != 0 && $email != $emailAwal;
-    $resImage = false;
-
-    $fileName = '';
-    $size = 0;
-    $tmpName = '';
+    $checkNrp = "SELECT * FROM students WHERE nrp='$_POST[nrp]'";
+    $checkUser = "SELECT * FROM students WHERE user_id='$_POST[user]'";
+    $resultNrp = mysqli_query($connect, $checkNrp)->num_rows != 0 && $nrp != $nrpAwal;
+    $resultUser = mysqli_query($connect, $checkUser)->num_rows != 0 && $user != $userAwal;
 
 
-    if ($_FILES['photo']['error'] != 4) {
-        $fileName = $_FILES['photo']['name'];
-        $size = $_FILES['photo']['size'];
-        $tmpName = $_FILES['photo']['tmp_name'];
-
-        if ($size > 2 * 1024 * 1024) {
-            $resImage = true;
-        }
-    }
-
-    if ($resNrp || $resEmail || $resImage) {
-        $message = 'Image size is too big. Maximum size is 2MB.';
-        if ($resNrp) {
+    if ($resultNrp) {
+        if ($resultNrp) {
             $message = 'NRP has been used!';
-        }
-        if ($resEmail) {
-            $message = 'Email has been used!';
         }
         echo '
         <script>
@@ -74,20 +52,11 @@
          });
         </script>';
     } else {
-        $text = '';
-        if ($_FILES['photo']['error'] != 4) {
-            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-            $fileName = $nrp . '.' . $extension;
-            move_uploaded_file($tmpName, $fileName);
-            $text = ",photo='$fileName'";
-        }
-        $sql = "UPDATE mahasiswa SET nrp='$nrp',
-                                    nama='$name',
-                                    jenis_kelamin='$gender',
-                                    jurusan='$major',
-                                    email='$email',
-                                    alamat='$address'
-                                    ".$text."
+        $sql = "UPDATE students SET nrp='$nrp',
+                                    user_id='$user',
+                                    gender='$gender',
+                                    major_id='$major',
+                                    address='$address'
                 WHERE nrp='$nrpAwal'";
         $query = mysqli_query($connect, $sql);
         if ($query) {
@@ -99,7 +68,7 @@
                 text: "Data has been edited!",
                 icon: "success",
             }).then((value) => {
-                window.location = "../../index.php";
+                window.location = "../../student.php";
             });
          });
         </script>';
@@ -112,7 +81,7 @@
                 text: "Query error!",
                 icon: "error",
             }).then((value) => {
-                window.location = "../../index.php";
+                window.location = "../../student.php";
             });
          });
         </script>';

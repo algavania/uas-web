@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../dist/output.css?v=<?php echo time(); ?>">
-    <title>Edit Student</title>
+    <title>Edit User</title>
 </head>
 
 <body>
@@ -24,6 +24,12 @@
     $email = $_POST['email'];
     $emailAwal = $_POST['email_awal'];
     $name = $_POST['name'];
+    $role = $_POST['role'];
+
+    $resImage = false;
+    $fileName = $_FILES['photo']['name'];
+    $size = $_FILES['photo']['size'];
+    $tmpName = $_FILES['photo']['tmp_name'];
 
     $checkEmail = "SELECT * FROM users WHERE email='$email'";
     $resultEmail = mysqli_query($connect, $checkEmail);
@@ -31,8 +37,16 @@
     $row = mysqli_fetch_assoc($resultEmail);
     $id = $_POST['id'];
 
-    if ($resEmail) {
+    
+    if ($size > 2 * 1024 * 1024) {
+        $resImage = true;
+    }
+
+    if ($resEmail || $resImage) {
         $message = 'Email has been used!';
+        if ($resImage) {
+            $message = 'Image size is too big. Maximum size is 2MB.';
+        }
         echo '
         <script>
         $(document).ready(function() {
@@ -46,9 +60,14 @@
          });
         </script>';
     } else {
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $fileName = $_POST['id'] . '.' . $extension;
+        move_uploaded_file($tmpName, '../../img/users/'.$fileName);
         $sql = "UPDATE users SET
                                     name='$name',
-                                    email='$email'
+                                    email='$email',
+                                    role='$role',
+                                    photo='$fileName'
                 WHERE id='$id'";
         $query = mysqli_query($connect, $sql);
         if ($query) {

@@ -27,7 +27,13 @@
             if (password_verify($password, $row['password'])) {
                 $_SESSION['login'] = true;
                 $_SESSION['id'] = $row['id'];
-                header('Location: ../../index.php');
+                $_SESSION['role'] = $row['role'];
+                if ($row['role'] == 4)
+                    header('Location: ../../student.php');
+                else if ($row['role'] == 1)
+                    header('Location: ../../guest.php');
+                else
+                    header('Location: ../../index.php');
                 exit;
             } else {
                 $message = 'Invalid password!';
@@ -41,7 +47,7 @@
 $(document).ready(function() {
 swal({
     title: "Error",
-    text: "'.$message.'",
+    text: "' . $message . '",
     icon: "error",                                
     }).then((value) => {
     window.location = "../../login.php";

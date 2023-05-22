@@ -13,17 +13,19 @@
     <title>Admin Dashboard</title>
 </head>
 
-<body>
+<body class="bg-[#F6F9FE] h-full">
     <?php
     session_start();
     if (!$_SESSION['login']) {
         header('Location: login.php');
         exit;
     }
+    include "./middleware/roles.php";
+    checkRoleAccess([4]);
     ?>
     <?php include "./components/sidebar.php"; ?>
     <div class="sm:ml-64 h-full">
-        <div class="py-8 px-6 bg-[#F6F9FE] h-screen w-full relative">
+        <div class="py-8 px-6 bg-[#F6F9FE] h-full w-full relative">
             <label for="table-search" class="sr-only">Search</label>
             <div class="relative mb-6">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -45,6 +47,12 @@
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Email
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Role
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Photo
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <span class="sr-only">Edit</span>
