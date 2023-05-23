@@ -17,10 +17,8 @@
     <?php
     include '../../connect.php';
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
+    include "../../middleware/roles.php";
+    checkAuthMiddleware(false);
     $nrp = $_POST['nip'];
     $nrpAwal = $_POST['nip_awal'];
     $major = $_POST['department'];

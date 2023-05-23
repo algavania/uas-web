@@ -1,11 +1,8 @@
 <?php
 session_start();
-if (!$_SESSION['login']) {
-    header('Location: login.php');
-    exit;
-}
 include "../middleware/roles.php";
-checkRoleAccess([2, 3]);
+checkAuthMiddleware(false);
+checkRoleAccess([2,3]);
 include '../controller/material/read.php' ?>
 
 <!DOCTYPE html>

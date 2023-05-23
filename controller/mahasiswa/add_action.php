@@ -17,10 +17,8 @@
     <?php
     include '../../connect.php';
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
+    include "../../middleware/roles.php";
+    checkAuthMiddleware(false);
     if (isset($_POST['nrp'])) {
         $checkNrp = "SELECT * FROM students WHERE nrp='$_POST[nrp]'";
         $checkUser = "SELECT * FROM students WHERE user_id='$_POST[user]'";

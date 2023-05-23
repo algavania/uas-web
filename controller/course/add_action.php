@@ -17,17 +17,15 @@
     <?php
     include '../../connect.php';
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
+    include "../../middleware/roles.php";
+    checkAuthMiddleware(false);
     if (isset($_POST['name'])) {
         $id = $_SESSION['id'];
         $lecturerSql = "SELECT * FROM lecturers WHERE user_id=$id";
         $result = mysqli_query($connect, $lecturerSql);
         $row = $result->fetch_assoc();
         $lecturerId = $row['nip'];
-    
+
         $sql = "INSERT INTO courses
 VALUES ('',
         $lecturerId,

@@ -1,10 +1,8 @@
 <?php 
     include '../../connect.php';
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
+    include "../../middleware/roles.php";
+    checkAuthMiddleware(false);
     $nrp = $_GET['nip'];
     $sql = "DELETE from lecturers WHERE nip='$nrp'";    
     $query = mysqli_query($connect, $sql);

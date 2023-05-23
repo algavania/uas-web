@@ -17,10 +17,8 @@
     <?php
     include '../../connect.php';
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
+    include "../../middleware/roles.php";
+    checkAuthMiddleware(false);
     $email = $_POST['email'];
     $emailAwal = $_POST['email_awal'];
     $name = $_POST['name'];

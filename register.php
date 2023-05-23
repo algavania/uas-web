@@ -16,10 +16,8 @@
 <body class="h-screen">
     <?php
     session_start();
-    if (isset($_SESSION['login'])) {
-        header('Location: student.php');
-        exit;
-    }
+    include "./middleware/roles.php";
+    checkAuthMiddleware(true);
     ?>
     <div class="grid grid-cols-1 md:grid-cols-2 h-full">
         <div class="container p-6 sm:p-8 lg:p-16 xl:px-24">

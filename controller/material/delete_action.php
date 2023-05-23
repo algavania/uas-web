@@ -1,10 +1,8 @@
 <?php 
     include '../../connect.php';
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
+    include "../../middleware/roles.php";
+    checkAuthMiddleware(false);
     $id = $_GET['id'];
     $sql = "DELETE from materials WHERE id='$id'";    
     $query = mysqli_query($connect, $sql);

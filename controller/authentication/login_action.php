@@ -28,6 +28,13 @@
                 $_SESSION['login'] = true;
                 $_SESSION['id'] = $row['id'];
                 $_SESSION['role'] = $row['role'];
+
+                if (isset($_POST['checkbox'])) {
+                    setcookie('login', true, time() + (60 * 60 * 24 * 5), '/');
+                    setcookie('id', $row['id'], time() + (60 * 60 * 24 * 15), '/');
+                    setcookie('role', $row['role'], time() + (60 * 60 * 24 * 15), '/');
+                }
+
                 if ($row['role'] == 4)
                     header('Location: ../../student.php');
                 else if ($row['role'] == 1)

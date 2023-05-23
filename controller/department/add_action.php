@@ -17,10 +17,8 @@
     <?php
     include '../../connect.php';
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
+    include "../../middleware/roles.php";
+    checkAuthMiddleware(false);
     if (isset($_POST['name'])) {
         $checkName = "SELECT * FROM departments WHERE name='$_POST[name]'";
         $resultName = mysqli_query($connect, $checkName);

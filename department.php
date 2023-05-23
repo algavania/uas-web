@@ -16,11 +16,8 @@
 <body class="bg-[#F6F9FE] h-full">
     <?php
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
     include "./middleware/roles.php";
+    checkAuthMiddleware(false);
     checkRoleAccess([4]);
     ?>
     <?php include "./components/sidebar.php"; ?>

@@ -17,10 +17,8 @@
     <?php
     include '../../connect.php';
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
+    include "../../middleware/roles.php";
+    checkAuthMiddleware(false);
     if (isset($_POST['id'])) {
         $id = $_POST['id'];
         $assignmentId = $_POST['assignment_id'];

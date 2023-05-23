@@ -6,7 +6,8 @@ if (!$_SESSION['login']) {
 }
 
 include "../../middleware/roles.php";
-checkRoleAccess([2, 3]);
+checkAuthMiddleware(false);
+checkRoleAccess([3]);
 
 include '../../controller/submission/read.php' ?>
 

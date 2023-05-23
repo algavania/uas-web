@@ -1,14 +1,10 @@
 <?php
 session_start();
-if (!$_SESSION['login']) {
-    header('Location: login.php');
-    exit;
-}
-
 include "../middleware/roles.php";
-include "../controller/course/read_course.php";
-checkRoleAccess([2, 3]);
+checkAuthMiddleware(false);
+checkRoleAccess([2,3]);
 
+include "../controller/course/read_course.php";
 include '../controller/assignment/read.php'
 ?>
 

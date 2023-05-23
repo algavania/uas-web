@@ -16,10 +16,8 @@
 <body class="h-screen">
     <?php
     session_start();
-    if (isset($_SESSION['login'])) {
-        header('Location: student.php');
-        exit;
-    }
+    include "./middleware/roles.php";
+    checkAuthMiddleware(true);
     ?>
 
     <div class="grid grid-cols-1 md:grid-cols-2 h-full">
@@ -43,6 +41,15 @@
                             </button>
                         </div>
                         <input id="password" name="password" type="password" placeholder="Password" class=" rounded-lg border-dark10 border focus:outline-none focus:border focus:border-primary appearance-none block mt-3 w-full py-3 px-4" required>
+                    </div>
+                </div>
+
+                <div class="flex mt-6">
+                    <div class="flex items-center h-5">
+                        <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value="" name="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    <div class="ml-2 text-sm">
+                        <label for="helper-checkbox" class="font-medium text-gray-900 dark:text-gray-300">Remember Me</label>
                     </div>
                 </div>
                 <button class="mt-10 py-3 px-6 border-white bg-primary  rounded-lg text-white w-full font-semibold">Login</button>

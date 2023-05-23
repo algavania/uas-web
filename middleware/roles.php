@@ -59,3 +59,23 @@ function redirectRole()
         exit;
     }
 }
+
+function checkAuthMiddleware($isFromAuthPage)
+{
+    if (isset($_SESSION['login']) || isset($_COOKIE['login'])) {
+        if (isset($_COOKIE['login'])) {
+            $_SESSION['login'] = $_COOKIE['login'];
+            $_SESSION['id'] = $_COOKIE['id'];
+            $_SESSION['role'] = $_COOKIE['role'];
+        }
+        if ($isFromAuthPage) {
+            header('Location: index.php');
+            exit;
+        }
+    } else {
+        if (!$isFromAuthPage) {
+            header('Location: login.php');
+            exit;
+        }
+    }
+}

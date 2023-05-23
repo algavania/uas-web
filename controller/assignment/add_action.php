@@ -17,11 +17,9 @@
     <?php
     include '../../connect.php';
     session_start();
-    if (!$_SESSION['login']) {
-        header('Location: login.php');
-        exit;
-    }
-    if (isset($_POST['title'])) {    
+    include "../../middleware/roles.php";
+    checkAuthMiddleware(false);
+    if (isset($_POST['title'])) {
         $sql = "INSERT INTO assignments
 VALUES ('',
         '$_POST[course_id]',
@@ -41,7 +39,7 @@ swal({
     text: "Data has been added!",
     icon: "success",
 }).then((value) => {
-    window.location = "../../course/assignment.php?id='.$_POST['course_id'].'";
+    window.location = "../../course/assignment.php?id=' . $_POST['course_id'] . '";
 });
 });
 </script>';
